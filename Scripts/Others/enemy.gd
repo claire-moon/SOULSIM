@@ -19,7 +19,8 @@ func _on_shoot_timer_timeout():
 	if can_see_player():
 		var projectile = projectile_scene.instantiate()
 		projectile.global_position = $Muzzle.global_position
-		projectile.direction = (player.global_position - global_position).normalized()
+		projectile.set("direction", (player.global_position - global_position).normalized())
+		projectile.set("target_group", "Player")
 		get_parent().add_child(projectile)
 
 func can_see_player() -> bool:
@@ -27,13 +28,14 @@ func can_see_player() -> bool:
 	if not is_instance_valid(player):
 		return false
 	
-	#point raycast at player
-	raycast.target_position = raycast.to.local(player.global_position)
+	#point raycast at player (convert player POS to raycast local space)
+	var player_pos_local = raycast.to_local(player.global_position)
+	raycast.target_position = player_pos_local
 	
 	#force an update
 	raycast.force_raycast_update()
 	
-	#check if it hit
+	#check if it hwit
 	if raycast.is_colliding():
 		return raycast.get_collider() == player
 	return false
