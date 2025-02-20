@@ -10,6 +10,9 @@ enum states
 }
 var currentState 
 
+#CLAIRES SHITTY AWFUL CODE (DELETE THIS)
+@export var BULLET:PackedScene
+
 #move variables
 @export_group("move variables")
 var moveSpeed : float
@@ -90,13 +93,6 @@ var velocityPreDash : Vector3
 @onready var mesh = $MeshInstance3D
 @onready var hud = $HUD
 
-#declaring the shooting code (HELP HELP HELP HELLLLLLLLLLLLLLLLP)
-@export_group("Shooting")
-@export var max_charge_time := 2.0
-@export var projectile_scene: PackedScene = preload("res://Scenes/bullet.tscn")
-var current_charge := 0.0
-var is_charging := false
-
 func _ready():
 	#set the start move speed
 	moveSpeed = walkSpeed
@@ -122,33 +118,7 @@ func _ready():
 	#set the mesh scale of the character
 	mesh.scale = Vector3(1.0, 1.0, 1.0)
 	
-func shoot():
-	if Input.is_action_just_pressed("shoot"):
-		var projectile = projectile_scene.instantiate()
-		projectile.global_position = $Muzzle.global_position
-		projectile.direction = -$CameraHolder/Camera3D.global_transform.basis.z
-		projectile.target_group = "Enemy"
-		get_parent().add_child(projectile)
-	
-func fire_projectile():
-	var projectile = projectile_scene.instantiate()
-	projectile.global_transform = $CameraHolder/Camera3D.global_transform
-	projectile.direction = -$CameraHolder/Camera3D.global_transform.basis.z
-	get_parent().add_child(projectile)
-	
-#GOD WHAT THE FUCK EVEN IS THIS?????
-func _process(delta):
-	if Input.is_action_pressed("shoot") and is_on_floor():
-		is_charging = true
-		current_charge = clamp(current_charge + delta/max_charge_time, 0, 1)
-		hud.update_charge_bar(current_charge * 100)
-	elif Input.is_action_just_released("shoot") and is_charging:
-		if current_charge >= 0.99:
-			fire_projectile()
-			current_charge = 0.0
-			is_charging = false
-			hud.update_charge_bar(0)
-
+func _process(_delta):
 	#the behaviours that is preferable to check every "visual" frame
 	
 	inputManagement()
@@ -172,7 +142,17 @@ func inputManagement():
 	#add or remove some, and it prevent certain actions from being played when they shouldn't be
 	
 	if canInput:
-		match currentState:
+		
+		#quit action (later to be replaced by PAUSE MENU)
+		if Input.is_action_just_pressed("quit"):
+			get_tree().quit()
+			
+		#PUT THE SHOOT CODE HERE IDIOT
+		if Input.is_action_just_pressed("shoot"):
+			print("You done shot, buddy!")
+			player_shoot()
+		
+		match currentState:	
 			states.IDLE:
 				if Input.is_action_just_pressed("jump"):
 					jump(0.0, false)
@@ -249,6 +229,15 @@ func inputManagement():
 					
 			states.DASH:
 				pass
+				
+func player_shoot():
+		var tmp_bullet = BULLET.instantiate()
+		
+		get_parent().add_child(tmp_bullet)
+		
+		tmp_bullet.position = $CameraHolder/Camera3D/BulletTracker3D.global_position
+		tmp_bullet.rotation = $CameraHolder/Camera3D/BulletTracker3D.global_rotation
+		
 
 func displayStats():
 	#call the functions in charge of displaying the controller properties

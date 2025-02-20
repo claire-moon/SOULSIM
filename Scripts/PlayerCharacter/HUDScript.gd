@@ -11,10 +11,6 @@ class_name HUD
 @onready var framesPerSecondLabelText = $HBoxContainer/VBoxContainer2/FramesPerSecondLabelText
 @onready var nbJumpsAllowedInAirLabelText = $HBoxContainer/VBoxContainer2/NbJumpsInAirLabelText
 @onready var speedLinesContainer = $SpeedLinesContrainer
-@onready var charge_bar = $ChargeBar
-
-func update_charge_bar(value):
-	charge_bar.value = value
 
 func _ready():
 	speedLinesContainer.visible = false #the speed lines will only be displayed when the character will dashing

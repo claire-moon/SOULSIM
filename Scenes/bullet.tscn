@@ -1,18 +1,48 @@
-[gd_scene load_steps=4 format=3 uid="uid://ojna644hqd7l"]
+[gd_scene load_steps=6 format=3 uid="uid://4fyakavc2ttv"]
 
-[ext_resource type="Script" path="res://Scripts/Others/bullet.gd" id="1_s2x7q"]
+[ext_resource type="Script" path="res://Scripts/Others/bullet.gd" id="1_5kfgq"]
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_pdvcx"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q4s0p"]
+albedo_color = Color(0.746578, 0.69432, 7.70092e-07, 1)
 
-[sub_resource type="SphereMesh" id="SphereMesh_nuunt"]
+[sub_resource type="CylinderMesh" id="CylinderMesh_2wxoc"]
+top_radius = 0.1
+bottom_radius = 0.3
+height = 0.638
 
-[node name="BULLET" type="Node3D"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_em0ms"]
+radius = 0.3
 
-[node name="Area3D" type="Area3D" parent="."]
-script = ExtResource("1_s2x7q")
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2d7vy"]
+radius = 0.3795
+height = 1.05
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-shape = SubResource("SphereShape3D_pdvcx")
+[node name="BULLET" type="RigidBody3D"]
+transform = Transform3D(-1, 0, -8.74228e-08, 7.64274e-15, -1, -8.74228e-08, -8.74228e-08, -8.74228e-08, 1, -0.00112522, 5.96046e-08, 0.00800586)
+collision_layer = 3
+collision_mask = 3
+mass = 0.01
+gravity_scale = 0.1
+script = ExtResource("1_5kfgq")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D"]
-mesh = SubResource("SphereMesh_nuunt")
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 1.74846e-07, -8.47033e-22, 7.64274e-15, -4.37114e-08, 1, 1.74846e-07, -1, -4.37114e-08, 0, 0.0542288, 0)
+material_override = SubResource("StandardMaterial3D_q4s0p")
+mesh = SubResource("CylinderMesh_2wxoc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00293811, 0.00394218, 0.339433)
+shape = SubResource("SphereShape3D_em0ms")
+
+[node name="HITBOX" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HITBOX"]
+transform = Transform3D(1, -1.74846e-07, -1.69407e-21, -7.64274e-15, -4.37114e-08, -1, 1.74846e-07, 1, -4.37114e-08, 0, 0.059746, 0)
+shape = SubResource("CapsuleShape3D_2d7vy")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
