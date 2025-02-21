@@ -30,4 +30,4 @@ func _on_hit_area_3d_body_entered(body):
 
 func _on_timer_timeout():
 	queue_free()
-	pass
+	print("Bullet timed out.")

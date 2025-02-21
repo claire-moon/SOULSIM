@@ -149,7 +149,6 @@ func inputManagement():
 			
 		#PUT THE SHOOT CODE HERE IDIOT
 		if Input.is_action_just_pressed("shoot"):
-			print("You done shot, buddy!")
 			player_shoot()
 		
 		match currentState:	
@@ -231,12 +230,28 @@ func inputManagement():
 				pass
 				
 func player_shoot():
-		var tmp_bullet = BULLET.instantiate()
-		
-		get_parent().add_child(tmp_bullet)
-		
-		tmp_bullet.position = $CameraHolder/Camera3D/BulletTracker3D.global_position
-		tmp_bullet.rotation = $CameraHolder/Camera3D/BulletTracker3D.global_rotation
+	#LOTS OF DEBUG SHIT IN HERE BECAUSE I AM LOSING MY MIND LOL
+		print("Attempting to shoot...")
+		if BULLET:
+			print("Bullet scene validated.")
+			var tmp_bullet = BULLET.instantiate()
+			if tmp_bullet:
+				print("Bullet instance created.")
+				get_parent().add_child(tmp_bullet)
+				print("Bullet added to world.")
+				
+				var bullet_tracker = $CameraHolder/Camera3D/BulletTracker3D
+				print("BT3D GLOBALPOS: ", bullet_tracker.global_position)
+				print("BT3D GLOBALROT: ", bullet_tracker.global_rotation)
+				
+				tmp_bullet.position = $CameraHolder/Camera3D/BulletTracker3D.global_position
+				tmp_bullet.rotation = $CameraHolder/Camera3D/BulletTracker3D.global_rotation
+				print("Bullet rotation set.")
+				print("Shoot successful!")
+			else:
+				print("Bullet failed to instantiate.")
+		else:
+			print("Bullet scene not valid.")
 		
 
 func displayStats():

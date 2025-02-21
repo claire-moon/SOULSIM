@@ -13,11 +13,16 @@ config_version=5
 config/name="SOULSIM"
 run/main_scene="res://Scenes/TemplateMapScene.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
+run/max_fps=60
 boot_splash/bg_color=Color(0, 0, 0, 1)
 config/icon="res://Arts/TemplateImages/Icon.png"
 
 [display]
 
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/size/mode=3
+window/size/borderless=true
 window/stretch/aspect="ignore"
 
 [editor]
@@ -27,7 +32,7 @@ version_control/autoload_on_startup=true
 
 [editor_plugins]
 
-enabled=PackedStringArray()
+enabled=PackedStringArray("res://addons/SphynxMotionBlurToolkit/plugin.cfg")
 
 [input]
 
@@ -90,6 +95,11 @@ shoot={
 "events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":1,"canceled":false,"pressed":false,"double_click":false,"script":null)
 ]
 }
+HUD={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":47,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+]
+}
 
 [layer_names]
 
@@ -101,6 +111,8 @@ shoot={
 
 [rendering]
 
+environment/defaults/default_clear_color=Color(1, 1, 1, 1)
 anti_aliasing/quality/msaa_2d=2
-anti_aliasing/quality/msaa_3d=2
+anti_aliasing/quality/msaa_3d=3
 anti_aliasing/quality/screen_space_aa=1
+anti_aliasing/quality/use_taa=true

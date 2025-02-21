@@ -4,16 +4,21 @@ extends Control
 class_name HUD
 
 #references variables
-@onready var currentStateLabelText = $HBoxContainer/VBoxContainer2/CurrentStateLabelText
-@onready var moveSpeedLabelText = $HBoxContainer/VBoxContainer2/MoveSpeedLabelText
-@onready var desiredMoveSpeedLabelText = $HBoxContainer/VBoxContainer2/DesiredMoveSpeedLabelText
-@onready var velocityLabelText = $HBoxContainer/VBoxContainer2/VelocityLabelText
-@onready var framesPerSecondLabelText = $HBoxContainer/VBoxContainer2/FramesPerSecondLabelText
-@onready var nbJumpsAllowedInAirLabelText = $HBoxContainer/VBoxContainer2/NbJumpsInAirLabelText
+@onready var currentStateLabelText = $WORDS/VBoxContainer2/CurrentStateLabelText
+@onready var moveSpeedLabelText = $WORDS/VBoxContainer2/MoveSpeedLabelText
+@onready var desiredMoveSpeedLabelText = $WORDS/VBoxContainer2/DesiredMoveSpeedLabelText
+@onready var velocityLabelText = $WORDS/VBoxContainer2/VelocityLabelText
+@onready var framesPerSecondLabelText = $WORDS/VBoxContainer2/FramesPerSecondLabelText
+@onready var nbJumpsAllowedInAirLabelText = $WORDS/VBoxContainer2/NbJumpsInAirLabelText
 @onready var speedLinesContainer = $SpeedLinesContrainer
+@onready var WORDS = $WORDS
+
+#are we seeing the HUD or not, do i really need to explain that any more or no
+var hud_visible = true
 
 func _ready():
 	speedLinesContainer.visible = false #the speed lines will only be displayed when the character will dashing
+	toggle_hud() #INIT THE HUD INIT !!!
 
 func displayCurrentState(currentState):
 	#this function manage the current state displayment
@@ -68,3 +73,14 @@ func displaySpeedLines(dashTime):
 func _process(_delta):
 	#this function manage the frames per second displayment
 	framesPerSecondLabelText.set_text(str(Engine.get_frames_per_second()))
+	
+	#(HUD on/off) check for keypress
+	if Input.is_action_just_pressed("HUD"):
+		toggle_hud()
+	
+func toggle_hud():
+	#logic for turning the HUD off and on and off and on and off and on and so on
+	hud_visible = !hud_visible
+	WORDS.visible = hud_visible
+	speedLinesContainer.visible = hud_visible if speedLinesContainer.visible else false
+	

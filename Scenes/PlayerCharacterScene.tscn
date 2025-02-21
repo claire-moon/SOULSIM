@@ -25,7 +25,7 @@ noise = SubResource("FastNoiseLite_cdisy")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fk5op"]
 shader = ExtResource("12_8u6b8")
-shader_parameter/line_color = Color(1, 1, 1, 1)
+shader_parameter/line_color = Color(0, 0, 0, 1)
 shader_parameter/line_count = 2.0
 shader_parameter/line_density = 0.8
 shader_parameter/line_faloff = 1.0
@@ -42,12 +42,12 @@ floor_snap_length = 0.0
 platform_floor_layers = 4294901761
 script = ExtResource("1_5dbx1")
 BULLET = ExtResource("2_phqe2")
-maxSpeed = 50.0
-walkSpeed = 11.0
-runSpeed = 20.0
+maxSpeed = 60.0
+walkSpeed = 15.0
+runSpeed = 25.0
 crouchSpeed = 7.0
 slideSpeedAddon = 8.0
-dashSpeed = 120.0
+dashSpeed = 220.0
 walkAcceleration = 10.0
 runAcceleration = 8.0
 crouchAcceleration = 6.0
@@ -77,7 +77,7 @@ shape = SubResource("CapsuleShape3D_1gb5t")
 disabled = true
 
 [node name="BulletSpawnMarker" type="Marker3D" parent="."]
-transform = Transform3D(-0.0179542, -0.0293571, -0.999408, -0.0120226, 0.999503, -0.0291439, 0.999767, 0.0114922, -0.0182982, -1.41396, 0.715, 0)
+transform = Transform3D(-0.0179542, -0.0293571, -0.999408, -0.0120226, 0.999503, -0.0291439, 0.999767, 0.0114922, -0.0182982, -1.00596, 0.715, 0)
 
 [node name="CameraHolder" type="Marker3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0.715, 0)
@@ -108,10 +108,9 @@ cull_mask = 1
 current = true
 fov = 100.0
 near = 0.01
-far = 1000.0
 
 [node name="BulletTracker3D" type="Marker3D" parent="CameraHolder/Camera3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.37114e-08, 0, -1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
 
 [node name="CeilingCheck" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.758088, 0)
@@ -159,18 +158,22 @@ grow_vertical = 2
 [node name="TopLine" type="Line2D" parent="HUD/Reticle"]
 points = PackedVector2Array(0, -5, 0, -15)
 width = 2.0
+default_color = Color(0, 0, 0, 1)
 
 [node name="BottomLine" type="Line2D" parent="HUD/Reticle"]
 points = PackedVector2Array(0, 5, 0, 15)
 width = 2.0
+default_color = Color(0, 0, 0, 1)
 
 [node name="RightLine" type="Line2D" parent="HUD/Reticle"]
 points = PackedVector2Array(5, 0, 15, 0)
 width = 2.0
+default_color = Color(0, 0, 0, 1)
 
 [node name="LeftLine" type="Line2D" parent="HUD/Reticle"]
 points = PackedVector2Array(-5, 0, -15, 0)
 width = 2.0
+default_color = Color(0, 0, 0, 1)
 
 [node name="SpeedLinesContrainer" type="ColorRect" parent="HUD"]
 visible = false
@@ -184,38 +187,38 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HUD"]
+[node name="WORDS" type="HBoxContainer" parent="HUD"]
 layout_mode = 0
 offset_left = 7.0
 offset_right = 811.0
 offset_bottom = 350.0
 script = ExtResource("5_jgfg0")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HUD/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/WORDS"]
 layout_mode = 2
 
-[node name="CurrentStateLabel" type="Label" parent="HUD/HBoxContainer/VBoxContainer"]
+[node name="CurrentStateLabel" type="Label" parent="HUD/WORDS/VBoxContainer"]
 texture_filter = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 40
 text = "Current state : "
 
-[node name="MoveSpeedLabel" type="Label" parent="HUD/HBoxContainer/VBoxContainer"]
+[node name="MoveSpeedLabel" type="Label" parent="HUD/WORDS/VBoxContainer"]
 texture_filter = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 40
 text = "Move speed : "
 
-[node name="DesiredMoveSpeedLabel" type="Label" parent="HUD/HBoxContainer/VBoxContainer"]
+[node name="DesiredMoveSpeedLabel" type="Label" parent="HUD/WORDS/VBoxContainer"]
 texture_filter = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 40
 text = "Desired move speed : "
 
-[node name="VelocityLabel" type="Label" parent="HUD/HBoxContainer/VBoxContainer"]
+[node name="VelocityLabel" type="Label" parent="HUD/WORDS/VBoxContainer"]
 texture_filter = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -223,59 +226,59 @@ theme_override_font_sizes/font_size = 40
 text = "Velocity : 
 "
 
-[node name="FramesPerSecondLabel" type="Label" parent="HUD/HBoxContainer/VBoxContainer"]
+[node name="FramesPerSecondLabel" type="Label" parent="HUD/WORDS/VBoxContainer"]
 texture_filter = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 40
 text = "Frames per seconds : "
 
-[node name="NbJumpsInAirLabel" type="Label" parent="HUD/HBoxContainer/VBoxContainer"]
+[node name="NbJumpsInAirLabel" type="Label" parent="HUD/WORDS/VBoxContainer"]
 texture_filter = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 40
 text = "Number jumps allowed in air : "
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="HUD/HBoxContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="HUD/WORDS"]
 layout_mode = 2
 
-[node name="CurrentStateLabelText" type="Label" parent="HUD/HBoxContainer/VBoxContainer2"]
+[node name="CurrentStateLabelText" type="Label" parent="HUD/WORDS/VBoxContainer2"]
 texture_filter = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 40
 text = "..................."
 
-[node name="MoveSpeedLabelText" type="Label" parent="HUD/HBoxContainer/VBoxContainer2"]
+[node name="MoveSpeedLabelText" type="Label" parent="HUD/WORDS/VBoxContainer2"]
 texture_filter = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 40
 text = "..................."
 
-[node name="DesiredMoveSpeedLabelText" type="Label" parent="HUD/HBoxContainer/VBoxContainer2"]
+[node name="DesiredMoveSpeedLabelText" type="Label" parent="HUD/WORDS/VBoxContainer2"]
 texture_filter = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 40
 text = "..................."
 
-[node name="VelocityLabelText" type="Label" parent="HUD/HBoxContainer/VBoxContainer2"]
+[node name="VelocityLabelText" type="Label" parent="HUD/WORDS/VBoxContainer2"]
 texture_filter = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 40
 text = "..................."
 
-[node name="FramesPerSecondLabelText" type="Label" parent="HUD/HBoxContainer/VBoxContainer2"]
+[node name="FramesPerSecondLabelText" type="Label" parent="HUD/WORDS/VBoxContainer2"]
 texture_filter = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 40
 text = "..................."
 
-[node name="NbJumpsInAirLabelText" type="Label" parent="HUD/HBoxContainer/VBoxContainer2"]
+[node name="NbJumpsInAirLabelText" type="Label" parent="HUD/WORDS/VBoxContainer2"]
 texture_filter = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)

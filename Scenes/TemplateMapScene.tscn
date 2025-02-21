@@ -1,36 +1,101 @@
-[gd_scene load_steps=16 format=3 uid="uid://oj3blpxqf1bl"]
+[gd_scene load_steps=27 format=3 uid="uid://oj3blpxqf1bl"]
 
-[ext_resource type="PackedScene" uid="uid://4fyakavc2ttv" path="res://Scenes/bullet.tscn" id="1_5jfch"]
+[ext_resource type="Resource" uid="uid://cslvcweyejh3c" path="res://addons/SphynxMotionBlurToolkit/PreBlurProcessing/default_camera_movement_component.tres" id="1_ky164"]
 [ext_resource type="PackedScene" uid="uid://bwggrf7sbmkcv" path="res://Scenes/PlayerCharacterScene.tscn" id="1_tvhlt"]
+[ext_resource type="Resource" uid="uid://iru8ynu04i00" path="res://addons/SphynxMotionBlurToolkit/PreBlurProcessing/default_camera_rotation_component.tres" id="2_2dna7"]
 [ext_resource type="Texture2D" uid="uid://cosanfwg57e4y" path="res://Arts/Textures/kenney_prototype_textures/orange/texture_03.png" id="2_v37ox"]
-[ext_resource type="Texture2D" uid="uid://c3wt61i40kd0n" path="res://Arts/Textures/kenney_prototype_textures/dark/texture_03.png" id="3_lilqa"]
+[ext_resource type="Resource" uid="uid://rp3mpjmisoyh" path="res://addons/SphynxMotionBlurToolkit/PreBlurProcessing/default_object_movement_component.tres" id="3_88tb6"]
 [ext_resource type="Script" path="res://Scripts/Others/JumppadScript.gd" id="4_nyumb"]
+[ext_resource type="Resource" uid="uid://c8ulad7utgrg7" path="res://addons/SphynxMotionBlurToolkit/PreBlurProcessing/pre_blur_processing_stage.tres" id="4_pg2su"]
+[ext_resource type="Script" path="res://addons/SphynxMotionBlurToolkit/PreBlurProcessing/pre_blur_processor.gd" id="5_lyhty"]
+[ext_resource type="Resource" uid="uid://ca45noqewsyvp" path="res://addons/SphynxMotionBlurToolkit/Guertin/guertin_experimental_blur_stage.tres" id="6_bqdow"]
+[ext_resource type="Resource" uid="uid://cvb65hfs2lrxo" path="res://addons/SphynxMotionBlurToolkit/Guertin/guertin_neighbor_max_stage.tres" id="7_26oq7"]
 [ext_resource type="PackedScene" uid="uid://clrs8jegmw27a" path="res://Scenes/apartmentset.tscn" id="7_ctwt8"]
+[ext_resource type="Resource" uid="uid://bidsfymvdyhek" path="res://addons/SphynxMotionBlurToolkit/Guertin/guertin_overlay_stage.tres" id="8_d4b5b"]
+[ext_resource type="Script" path="res://addons/SphynxMotionBlurToolkit/Guertin/new_guertin_motion_blur.gd" id="9_fudtd"]
+[ext_resource type="Resource" uid="uid://dipvwksvqb3dm" path="res://addons/SphynxMotionBlurToolkit/Guertin/guertin_tile_max_x_stage.tres" id="10_rtons"]
+[ext_resource type="Resource" uid="uid://bxfg45ubc2pv7" path="res://addons/SphynxMotionBlurToolkit/Guertin/guertin_tile_max_y_stage.tres" id="11_8558f"]
+[ext_resource type="Resource" uid="uid://bqehecsdgt70s" path="res://addons/SphynxMotionBlurToolkit/Guertin/guertin_tile_variance_stage.tres" id="12_u1l7k"]
+[ext_resource type="Script" path="res://addons/SphynxMotionBlurToolkit/BaseClasses/mb_compositor.gd" id="13_on133"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fjbi6"]
 sky_top_color = Color(1, 1, 1, 1)
-sky_horizon_color = Color(0.492377, 0.502422, 0.51828, 1)
-ground_bottom_color = Color(0, 0, 0, 1)
-ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+sky_horizon_color = Color(1, 1, 1, 1)
+sky_curve = 1e-05
+ground_bottom_color = Color(1, 1, 1, 1)
+ground_horizon_color = Color(1, 1, 1, 1)
+sun_angle_max = 43.45
 
 [sub_resource type="Sky" id="Sky_iebnq"]
 sky_material = SubResource("ProceduralSkyMaterial_fjbi6")
 
 [sub_resource type="Environment" id="Environment_pyxgo"]
 background_mode = 2
+background_color = Color(1, 1, 1, 1)
 sky = SubResource("Sky_iebnq")
-ambient_light_source = 3
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+reflected_light_source = 2
 tonemap_mode = 2
+ssr_enabled = true
+ssao_enabled = true
+ssao_radius = 0.79
+ssao_intensity = 2.13
+ssao_detail = 0.38
+ssao_horizon = 0.05
 glow_enabled = true
 fog_enabled = true
 fog_light_color = Color(1, 1, 1, 1)
 fog_light_energy = 0.82
-fog_sun_scatter = 0.33
 fog_density = 0.0153
-fog_aerial_perspective = 1.0
 fog_sky_affect = 0.0
 volumetric_fog_enabled = true
 volumetric_fog_density = 0.0266
+
+[sub_resource type="CompositorEffect" id="CompositorEffect_gedho"]
+resource_local_to_scene = false
+resource_name = ""
+enabled = true
+effect_callback_type = 4
+needs_motion_vectors = false
+needs_normal_roughness = false
+script = ExtResource("5_lyhty")
+pre_blur_processor_stage = ExtResource("4_pg2su")
+camera_rotation_component = ExtResource("2_2dna7")
+camera_movement_component = ExtResource("1_ky164")
+object_movement_component = ExtResource("3_88tb6")
+debug = false
+
+[sub_resource type="CompositorEffect" id="CompositorEffect_u8toa"]
+resource_local_to_scene = false
+resource_name = ""
+enabled = true
+effect_callback_type = 4
+needs_motion_vectors = false
+needs_normal_roughness = false
+script = ExtResource("9_fudtd")
+blur_stage = ExtResource("6_bqdow")
+overlay_stage = ExtResource("8_d4b5b")
+tile_max_x_stage = ExtResource("10_rtons")
+tile_max_y_stage = ExtResource("11_8558f")
+neighbor_max_stage = ExtResource("7_26oq7")
+tile_variance_stage = ExtResource("12_u1l7k")
+tile_size = 40
+linear_falloff_slope = 1.0
+importance_bias = 40.0
+maximum_jitter_value = 0.95
+minimum_user_threshold = 1.5
+debug = false
+
+[sub_resource type="Compositor" id="Compositor_0oqh4"]
+compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_gedho"), SubResource("CompositorEffect_u8toa")])
+script = ExtResource("13_on133")
+samples = 64
+intensity = 1.0
+center_fade = 0.0
+framerate_independent = true
+uncapped_independence = false
+target_constant_framerate = 60.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h3yst"]
 albedo_texture = ExtResource("2_v37ox")
@@ -48,119 +113,58 @@ emission_enabled = true
 height = 0.15
 radius = 2.0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_st80m"]
-albedo_color = Color(0, 0, 0, 1)
-albedo_texture = ExtResource("3_lilqa")
-uv1_scale = Vector3(0.5, 0.5, 0.5)
-uv1_triplanar = true
-uv1_world_triplanar = true
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ygjqq"]
-albedo_color = Color(0.140447, 0.140447, 0.140447, 1)
-uv1_scale = Vector3(0.5, 0.5, 0.5)
-uv1_triplanar = true
-uv1_world_triplanar = true
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_linps"]
-albedo_texture = ExtResource("3_lilqa")
-uv1_scale = Vector3(0.5, 0.5, 0.5)
-uv1_triplanar = true
-uv1_world_triplanar = true
-
 [node name="TESTLEVEL" type="Node3D"]
 
-[node name="BULLET" parent="." instance=ExtResource("1_5jfch")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 51.0471, 1.89181, 0.00800586)
+[node name="PlayerCharacter" parent="." instance=ExtResource("1_tvhlt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.86348, 17.5694, 34.5186)
+dashSpeed = 300.0
+walkAcceleration = 11.0
+runAcceleration = 9.0
+jumpHeight = 10.0
+jumpTimeToPeak = 0.5
+jumpTimeToFall = 0.77
+dashTime = 0.1
 
 [node name="Environment" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -92.5725, -244.029, 42.5781)
 
 [node name="WORLD" type="WorldEnvironment" parent="Environment"]
 environment = SubResource("Environment_pyxgo")
+compositor = SubResource("Compositor_0oqh4")
 
 [node name="SUN" type="DirectionalLight3D" parent="Environment"]
-transform = Transform3D(-0.866025, -0.0894011, 0.491943, 0, 0.983885, 0.178802, -0.5, 0.154847, -0.85207, 0, 0, 0)
+transform = Transform3D(-0.805224, -0.0570138, -0.590224, -0.341649, 0.858155, 0.383206, 0.484655, 0.510215, -0.710486, 60.1717, 271.254, -12.4445)
 light_color = Color(0.996945, 6.23293e-06, 1.54018e-06, 1)
+light_angular_distance = 4.68
 shadow_enabled = true
 
-[node name="PlayerCharacter" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -222.257, 262.058, -363.857)
-
-[node name="PlayerCharacterV2" parent="PlayerCharacter" instance=ExtResource("1_tvhlt")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.4456, 4.87719, 0)
-
 [node name="Map" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 206.381, -234.088, 369.126)
 
 [node name="WalkableWalls" type="Node3D" parent="Map"]
 
 [node name="WalkableWall" type="CSGBox3D" parent="Map/WalkableWalls" groups=["ShootableSurface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.9267, 3.94576, 122.859)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.9267, 3.94576, -563.282)
 material_override = SubResource("StandardMaterial3D_h3yst")
 use_collision = true
 collision_layer = 5
 collision_mask = 2
 size = Vector3(45, 8, 0)
 
-[node name="WalkableWall4" type="CSGBox3D" parent="Map/WalkableWalls" groups=["ShootableSurface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -225.574, 3.94576, 122.859)
-material_override = SubResource("StandardMaterial3D_h3yst")
-use_collision = true
-collision_layer = 5
-collision_mask = 2
-size = Vector3(55.356, 8, 0)
-
-[node name="WalkableWall6" type="CSGBox3D" parent="Map/WalkableWalls" groups=["ShootableSurface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -142.052, 3.94576, 122.859)
-material_override = SubResource("StandardMaterial3D_h3yst")
-use_collision = true
-collision_layer = 5
-collision_mask = 2
-size = Vector3(52.9949, 8, 0)
-
-[node name="WalkableWall5" type="CSGBox3D" parent="Map/WalkableWalls" groups=["ShootableSurface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -183.596, 3.94576, 110.841)
-material_override = SubResource("StandardMaterial3D_h3yst")
-use_collision = true
-collision_layer = 5
-collision_mask = 2
-size = Vector3(57.5216, 8, 0)
-
-[node name="WalkableWall3" type="CSGBox3D" parent="Map/WalkableWalls" groups=["ShootableSurface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -79.9646, 3.94576, 122.859)
-material_override = SubResource("StandardMaterial3D_h3yst")
-use_collision = true
-collision_layer = 5
-collision_mask = 2
-size = Vector3(24, 8, 0)
-
-[node name="WalkableWall2" type="CSGBox3D" parent="Map/WalkableWalls" groups=["ShootableSurface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -61.4088, 3.94576, 116.746)
-material_override = SubResource("StandardMaterial3D_h3yst")
-use_collision = true
-collision_layer = 5
-collision_mask = 2
-size = Vector3(24, 8, 0)
-
-[node name="WalkableWall7" type="CSGBox3D" parent="Map/WalkableWalls" groups=["ShootableSurface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -103.134, 3.94576, 114.059)
-material_override = SubResource("StandardMaterial3D_h3yst")
-use_collision = true
-collision_layer = 5
-collision_mask = 2
-size = Vector3(34.8449, 8, 0)
-
 [node name="CITYMAP" type="Node3D" parent="Map"]
 
 [node name="JUMP1" type="CSGCylinder3D" parent="Map/CITYMAP"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -213.072, 250.535, -377.39)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -250.964, 216.062, -419.794)
 material_override = SubResource("StandardMaterial3D_rd3mg")
 use_collision = true
 collision_mask = 2
 radius = 2.0
 height = 0.15
 script = ExtResource("4_nyumb")
-jumpBoostValue = 50.0
+jumpBoostValue = 60.0
 
 [node name="Area3D" type="Area3D" parent="Map/CITYMAP/JUMP1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.511139, 0)
 collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Map/CITYMAP/JUMP1/Area3D"]
@@ -168,7 +172,7 @@ transform = Transform3D(0.999923, -0.0123915, 0, 0.0123915, 0.999923, 0, 0, 0, 1
 shape = SubResource("CylinderShape3D_vm7yl")
 
 [node name="JUMP2" type="CSGCylinder3D" parent="Map/CITYMAP"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -253.31, 249.656, -357.708)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -128.061, 249.656, -357.708)
 material_override = SubResource("StandardMaterial3D_rd3mg")
 use_collision = true
 collision_mask = 2
@@ -185,7 +189,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0425774, 0)
 shape = SubResource("CylinderShape3D_vm7yl")
 
 [node name="JUMP3" type="CSGCylinder3D" parent="Map/CITYMAP"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -243.981, 216.287, -419.818)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -118.732, 216.287, -419.818)
 material_override = SubResource("StandardMaterial3D_rd3mg")
 use_collision = true
 collision_mask = 2
@@ -203,187 +207,55 @@ shape = SubResource("CylinderShape3D_vm7yl")
 
 [node name="Blocks" type="Node3D" parent="Map"]
 
-[node name="CSGBox3D" type="CSGBox3D" parent="Map/Blocks" groups=["ShootableSurface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -128.598, -0.137161, 23.0408)
-use_collision = true
-collision_mask = 2
-size = Vector3(260, 1, 210)
-material = SubResource("StandardMaterial3D_st80m")
-
-[node name="CSGBox3D14" type="CSGBox3D" parent="Map/Blocks" groups=["ShootableSurface"]]
-transform = Transform3D(1.11084, 0, 0, 0, 1.11084, 0, 0, 0, 1.11084, -255.335, -0.137161, -564.731)
-use_collision = true
-collision_mask = 2
-size = Vector3(511, 1, 612)
-material = SubResource("StandardMaterial3D_st80m")
-
-[node name="CSGBox3D12" type="CSGBox3D" parent="Map/Blocks" groups=["ShootableSurface"]]
-transform = Transform3D(0.999956, -0.00940719, 0, 0.00940719, 0.999956, 0, 0, 0, 1, -2.09055, 4.20324, 0.864672)
-use_collision = true
-collision_mask = 2
-size = Vector3(0.001, 8, 120.154)
-material = SubResource("StandardMaterial3D_st80m")
-
-[node name="CSGBox3D2" type="CSGBox3D" parent="Map/Blocks" groups=["ShootableSurface"]]
-transform = Transform3D(-4.37114e-08, 0.642788, 0.766044, 0, 0.766044, -0.642788, -1, -2.80971e-08, -3.34849e-08, -163.619, 21.5158, -67.1354)
-material_override = SubResource("StandardMaterial3D_ygjqq")
-use_collision = true
-collision_mask = 2
-size = Vector3(14, 1, 70)
-
-[node name="CSGBox3D4" type="CSGBox3D" parent="Map/Blocks" groups=["ShootableSurface"]]
-transform = Transform3D(-4.37114e-08, 0.5, 0.866025, 0, 0.866025, -0.5, -1, -2.18557e-08, -3.78552e-08, -130.606, 23.5035, -4.44917)
-material_override = SubResource("StandardMaterial3D_ygjqq")
-use_collision = true
-collision_mask = 2
-size = Vector3(14, 1, 140)
-
-[node name="CSGBox3D3" type="CSGBox3D" parent="Map/Blocks" groups=["ShootableSurface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -215.139, 43.868, -60.14)
-material_override = SubResource("StandardMaterial3D_ygjqq")
-use_collision = true
-collision_mask = 2
-size = Vector3(50, 1, 28)
-
-[node name="CSGBox3D5" type="CSGBox3D" parent="Map/Blocks" groups=["ShootableSurface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -215.97, 58.44, -11.413)
-material_override = SubResource("StandardMaterial3D_ygjqq")
-use_collision = true
-collision_mask = 2
-size = Vector3(50, 1, 28)
-
-[node name="CSGBox3D6" type="CSGBox3D" parent="Map/Blocks" groups=["ShootableSurface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -214.465, 19.9437, 1.90478)
-material_override = SubResource("StandardMaterial3D_linps")
-use_collision = true
-collision_mask = 2
-size = Vector3(25, 1, 35.7637)
-
-[node name="CSGBox3D10" type="CSGBox3D" parent="Map/Blocks" groups=["ShootableSurface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -162.839, 24.2194, 60.1357)
-material_override = SubResource("StandardMaterial3D_linps")
-use_collision = true
-collision_mask = 2
-size = Vector3(35.1389, 1, 19.9894)
-
-[node name="CSGBox3D11" type="CSGBox3D" parent="Map/Blocks" groups=["ShootableSurface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -102.932, 24.2194, 60.1357)
-material_override = SubResource("StandardMaterial3D_linps")
-use_collision = true
-collision_mask = 2
-size = Vector3(35.1389, 1, 19.9894)
-
-[node name="CSGBox3D13" type="CSGBox3D" parent="Map/Blocks" groups=["ShootableSurface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -153.816, 2.3, -14.332)
-material_override = SubResource("StandardMaterial3D_linps")
-use_collision = true
-collision_mask = 2
-size = Vector3(16.975, 0.5, 16.558)
-
-[node name="CSGBox3D7" type="CSGBox3D" parent="Map/Blocks" groups=["ShootableSurface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -214.465, 19.9437, -76.0135)
-material_override = SubResource("StandardMaterial3D_linps")
-use_collision = true
-collision_mask = 2
-size = Vector3(25, 1, 37.7349)
-
-[node name="CSGBox3D8" type="CSGBox3D" parent="Map/Blocks" groups=["ShootableSurface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -185.348, 24.7802, -102.014)
-material_override = SubResource("StandardMaterial3D_linps")
-use_collision = true
-collision_mask = 2
-size = Vector3(24.9877, 1, 25.8487)
-
-[node name="CSGBox3D9" type="CSGBox3D" parent="Map/Blocks" groups=["ShootableSurface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -153.529, 29.0835, -102.014)
-material_override = SubResource("StandardMaterial3D_linps")
-use_collision = true
-collision_mask = 2
-size = Vector3(24.9877, 1, 25.8487)
-
 [node name="Jumppads" type="Node3D" parent="Map"]
 
-[node name="Jumppad" type="CSGCylinder3D" parent="Map/Jumppads"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.7055, 0.513623, 83.194)
-material_override = SubResource("StandardMaterial3D_rd3mg")
-use_collision = true
-collision_mask = 2
-radius = 2.0
-height = 0.15
-script = ExtResource("4_nyumb")
-jumpBoostValue = 22.0
-
-[node name="Area3D" type="Area3D" parent="Map/Jumppads/Jumppad"]
-collision_mask = 2
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/Jumppads/Jumppad/Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0425774, 0)
-shape = SubResource("CylinderShape3D_vm7yl")
-
-[node name="Jumppad3" type="CSGCylinder3D" parent="Map/Jumppads"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -220.88, 44.4149, -62.1605)
-material_override = SubResource("StandardMaterial3D_rd3mg")
-use_collision = true
-collision_mask = 2
-radius = 2.0
-height = 0.15
-script = ExtResource("4_nyumb")
-jumpBoostValue = 29.0
-
-[node name="Area3D" type="Area3D" parent="Map/Jumppads/Jumppad3"]
-collision_mask = 2
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/Jumppads/Jumppad3/Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0425774, 0)
-shape = SubResource("CylinderShape3D_vm7yl")
-
-[node name="Jumppad2" type="CSGCylinder3D" parent="Map/Jumppads"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -203.661, 0.513623, 61.1653)
-material_override = SubResource("StandardMaterial3D_rd3mg")
-use_collision = true
-collision_mask = 2
-radius = 2.0
-height = 0.15
-script = ExtResource("4_nyumb")
-jumpBoostValue = 34.0
-
-[node name="Area3D" type="Area3D" parent="Map/Jumppads/Jumppad2"]
-collision_mask = 2
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/Jumppads/Jumppad2/Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0425774, 0)
-shape = SubResource("CylinderShape3D_vm7yl")
-
-[node name="Jumppad4" type="CSGCylinder3D" parent="Map/Jumppads"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -77.5403, 0.513623, -65.0266)
-material_override = SubResource("StandardMaterial3D_rd3mg")
-use_collision = true
-collision_mask = 2
-radius = 2.0
-height = 0.15
-script = ExtResource("4_nyumb")
-jumpBoostValue = 34.0
-
-[node name="Area3D" type="Area3D" parent="Map/Jumppads/Jumppad4"]
-collision_mask = 2
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/Jumppads/Jumppad4/Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0425774, 0)
-shape = SubResource("CylinderShape3D_vm7yl")
-
 [node name="EnemyCluster" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 206.381, -234.088, 369.126)
 
 [node name="APSET" parent="." instance=ExtResource("7_ctwt8")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -464.767, 0.418259, -640.973)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -258.386, -233.67, -271.847)
+
+[node name="StaticBody3D" parent="APSET/AP1" index="0"]
+collision_mask = 2
+
+[node name="StaticBody3D" parent="APSET/AP2" index="0"]
+collision_mask = 2
+
+[node name="StaticBody3D" parent="APSET/AP3" index="0"]
+collision_mask = 2
+
+[node name="StaticBody3D" parent="APSET/AP4" index="0"]
+collision_mask = 2
+
+[node name="StaticBody3D" parent="APSET/AP5" index="0"]
+collision_mask = 2
+
+[node name="AP6" parent="APSET" index="5"]
+transform = Transform3D(5.56501, 0, 0, 0, 5.56501, 0, 0, 0, 1, 206.006, 0, 154.732)
+
+[node name="StaticBody3D" parent="APSET/AP6" index="0"]
+collision_mask = 2
 
 [node name="AP7" parent="APSET" index="6"]
-transform = Transform3D(2.43889, 0, 0, 0, 3.42117, 0, 0, 0, 1.89674, 219.087, 0, 207.778)
+transform = Transform3D(2.43889, 0, 0, 0, 3.42117, 0, 0, 0, 1.89674, 219.088, -0.453751, 207.785)
+
+[node name="StaticBody3D" parent="APSET/AP7" index="0"]
+collision_mask = 2
 
 [node name="AP8" parent="APSET" index="7"]
 transform = Transform3D(-2.18557e-07, 0, -2.6, 0, 3.751, 0, 5, 0, -1.1365e-07, 275.17, 0, 289.969)
 
+[node name="StaticBody3D" parent="APSET/AP8" index="0"]
+collision_mask = 2
+
+[node name="CollisionShape3D" parent="APSET/AP8/StaticBody3D" index="0"]
+transform = Transform3D(1, 0, -3.55271e-15, 0, 1, 0, 0, 0, 1, -0.0668488, 0.101906, 0.00673676)
+
 [node name="AP9" parent="APSET" index="8"]
 transform = Transform3D(2.36417, 0, 0, 0, 3.07414, 0, 0, 0, 1.52995, 204.439, 0, 275.96)
+
+[node name="StaticBody3D" parent="APSET/AP9" index="0"]
+collision_mask = 2
 
 [node name="AP10" parent="APSET" index="9"]
 transform = Transform3D(2.4588, 0, 0, 0, 2.4588, 0, 0, 0, 1, 291.711, 0, 211.837)
@@ -391,9 +263,5 @@ transform = Transform3D(2.4588, 0, 0, 0, 2.4588, 0, 0, 0, 1, 291.711, 0, 211.837
 [connection signal="area_entered" from="Map/CITYMAP/JUMP1/Area3D" to="Map/CITYMAP/JUMP1" method="_on_area_3d_area_entered"]
 [connection signal="area_entered" from="Map/CITYMAP/JUMP2/Area3D" to="Map/CITYMAP/JUMP2" method="_on_area_3d_area_entered"]
 [connection signal="area_entered" from="Map/CITYMAP/JUMP3/Area3D" to="Map/CITYMAP/JUMP3" method="_on_area_3d_area_entered"]
-[connection signal="area_entered" from="Map/Jumppads/Jumppad/Area3D" to="Map/Jumppads/Jumppad" method="_on_area_3d_area_entered"]
-[connection signal="area_entered" from="Map/Jumppads/Jumppad3/Area3D" to="Map/Jumppads/Jumppad3" method="_on_area_3d_area_entered"]
-[connection signal="area_entered" from="Map/Jumppads/Jumppad2/Area3D" to="Map/Jumppads/Jumppad2" method="_on_area_3d_area_entered"]
-[connection signal="area_entered" from="Map/Jumppads/Jumppad4/Area3D" to="Map/Jumppads/Jumppad4" method="_on_area_3d_area_entered"]
 
 [editable path="APSET"]
