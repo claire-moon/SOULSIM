@@ -91,11 +91,11 @@ debug = false
 compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_gedho"), SubResource("CompositorEffect_u8toa")])
 script = ExtResource("13_on133")
 samples = 64
-intensity = 1.0
+intensity = 0.9
 center_fade = 0.0
 framerate_independent = true
-uncapped_independence = false
-target_constant_framerate = 60.0
+uncapped_independence = true
+target_constant_framerate = 30.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h3yst"]
 albedo_texture = ExtResource("2_v37ox")
@@ -151,10 +151,10 @@ collision_layer = 5
 collision_mask = 2
 size = Vector3(45, 8, 0)
 
-[node name="CITYMAP" type="Node3D" parent="Map"]
+[node name="JUMPPADS" type="Node3D" parent="Map"]
 
-[node name="JUMP1" type="CSGCylinder3D" parent="Map/CITYMAP"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -250.964, 216.062, -419.794)
+[node name="JUMP1" type="CSGCylinder3D" parent="Map/JUMPPADS"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -256.872, 216.062, -419.794)
 material_override = SubResource("StandardMaterial3D_rd3mg")
 use_collision = true
 collision_mask = 2
@@ -163,16 +163,16 @@ height = 0.15
 script = ExtResource("4_nyumb")
 jumpBoostValue = 60.0
 
-[node name="Area3D" type="Area3D" parent="Map/CITYMAP/JUMP1"]
+[node name="Area3D" type="Area3D" parent="Map/JUMPPADS/JUMP1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.511139, 0)
 collision_mask = 2
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/CITYMAP/JUMP1/Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/JUMPPADS/JUMP1/Area3D"]
 transform = Transform3D(0.999923, -0.0123915, 0, 0.0123915, 0.999923, 0, 0, 0, 1, 0, 0.042572, 0)
 shape = SubResource("CylinderShape3D_vm7yl")
 
-[node name="JUMP2" type="CSGCylinder3D" parent="Map/CITYMAP"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -128.061, 249.656, -357.708)
+[node name="JUMP2" type="CSGCylinder3D" parent="Map/JUMPPADS"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -186.743, 198.063, -458.925)
 material_override = SubResource("StandardMaterial3D_rd3mg")
 use_collision = true
 collision_mask = 2
@@ -181,15 +181,15 @@ height = 0.15
 script = ExtResource("4_nyumb")
 jumpBoostValue = 50.0
 
-[node name="Area3D" type="Area3D" parent="Map/CITYMAP/JUMP2"]
+[node name="Area3D" type="Area3D" parent="Map/JUMPPADS/JUMP2"]
 collision_mask = 2
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/CITYMAP/JUMP2/Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/JUMPPADS/JUMP2/Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0425774, 0)
 shape = SubResource("CylinderShape3D_vm7yl")
 
-[node name="JUMP3" type="CSGCylinder3D" parent="Map/CITYMAP"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -118.732, 216.287, -419.818)
+[node name="JUMP3" type="CSGCylinder3D" parent="Map/JUMPPADS"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -269.354, 174.034, -553.37)
 material_override = SubResource("StandardMaterial3D_rd3mg")
 use_collision = true
 collision_mask = 2
@@ -198,10 +198,10 @@ height = 0.15
 script = ExtResource("4_nyumb")
 jumpBoostValue = 50.0
 
-[node name="Area3D" type="Area3D" parent="Map/CITYMAP/JUMP3"]
+[node name="Area3D" type="Area3D" parent="Map/JUMPPADS/JUMP3"]
 collision_mask = 2
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/CITYMAP/JUMP3/Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/JUMPPADS/JUMP3/Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0425774, 0)
 shape = SubResource("CylinderShape3D_vm7yl")
 
@@ -215,38 +215,26 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 206.381, -234.088, 369.126)
 [node name="APSET" parent="." instance=ExtResource("7_ctwt8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -258.386, -233.67, -271.847)
 
-[node name="StaticBody3D" parent="APSET/AP1" index="0"]
-collision_mask = 2
+[node name="AP2" parent="APSET" index="1"]
+transform = Transform3D(2.73253, 0, 0, 0, 6.51704, 0, 0, 0, 4.2379, 270.184, 0, 42.9951)
 
-[node name="StaticBody3D" parent="APSET/AP2" index="0"]
-collision_mask = 2
+[node name="AP3" parent="APSET" index="2"]
+transform = Transform3D(3.44859, 0, 0, 0, 7.3876, 0, 0, 0, 2.0476, 204.199, 0, 75.2119)
 
-[node name="StaticBody3D" parent="APSET/AP3" index="0"]
-collision_mask = 2
+[node name="AP4" parent="APSET" index="3"]
+transform = Transform3D(7.67913, 0, 0, 0, 6.96665, 0, 0, 0, 4.71847, 179.506, 0, -31.9573)
 
-[node name="StaticBody3D" parent="APSET/AP4" index="0"]
-collision_mask = 2
-
-[node name="StaticBody3D" parent="APSET/AP5" index="0"]
-collision_mask = 2
+[node name="AP5" parent="APSET" index="4"]
+transform = Transform3D(2.9, 0, 0, 0, 5.76, 0, 0, 0, 3.06, 272.066, 0, 155.513)
 
 [node name="AP6" parent="APSET" index="5"]
-transform = Transform3D(5.56501, 0, 0, 0, 5.56501, 0, 0, 0, 1, 206.006, 0, 154.732)
-
-[node name="StaticBody3D" parent="APSET/AP6" index="0"]
-collision_mask = 2
+transform = Transform3D(5.56501, 0, 0, 0, 5.56501, 0, 0, 0, 1, 190.646, 0, 154.732)
 
 [node name="AP7" parent="APSET" index="6"]
-transform = Transform3D(2.43889, 0, 0, 0, 3.42117, 0, 0, 0, 1.89674, 219.088, -0.453751, 207.785)
-
-[node name="StaticBody3D" parent="APSET/AP7" index="0"]
-collision_mask = 2
+transform = Transform3D(2.43889, 0, 0, 0, 3.42117, 0, 0, 0, 1.89674, 203.334, -0.453751, 207.785)
 
 [node name="AP8" parent="APSET" index="7"]
 transform = Transform3D(-2.18557e-07, 0, -2.6, 0, 3.751, 0, 5, 0, -1.1365e-07, 275.17, 0, 289.969)
-
-[node name="StaticBody3D" parent="APSET/AP8" index="0"]
-collision_mask = 2
 
 [node name="CollisionShape3D" parent="APSET/AP8/StaticBody3D" index="0"]
 transform = Transform3D(1, 0, -3.55271e-15, 0, 1, 0, 0, 0, 1, -0.0668488, 0.101906, 0.00673676)
@@ -254,14 +242,11 @@ transform = Transform3D(1, 0, -3.55271e-15, 0, 1, 0, 0, 0, 1, -0.0668488, 0.1019
 [node name="AP9" parent="APSET" index="8"]
 transform = Transform3D(2.36417, 0, 0, 0, 3.07414, 0, 0, 0, 1.52995, 204.439, 0, 275.96)
 
-[node name="StaticBody3D" parent="APSET/AP9" index="0"]
-collision_mask = 2
-
 [node name="AP10" parent="APSET" index="9"]
-transform = Transform3D(2.4588, 0, 0, 0, 2.4588, 0, 0, 0, 1, 291.711, 0, 211.837)
+transform = Transform3D(2.4588, 0, 0, 0, 2.4588, 0, 0, 0, 1, 270.05, 0, 216.169)
 
-[connection signal="area_entered" from="Map/CITYMAP/JUMP1/Area3D" to="Map/CITYMAP/JUMP1" method="_on_area_3d_area_entered"]
-[connection signal="area_entered" from="Map/CITYMAP/JUMP2/Area3D" to="Map/CITYMAP/JUMP2" method="_on_area_3d_area_entered"]
-[connection signal="area_entered" from="Map/CITYMAP/JUMP3/Area3D" to="Map/CITYMAP/JUMP3" method="_on_area_3d_area_entered"]
+[connection signal="area_entered" from="Map/JUMPPADS/JUMP1/Area3D" to="Map/JUMPPADS/JUMP1" method="_on_area_3d_area_entered"]
+[connection signal="area_entered" from="Map/JUMPPADS/JUMP2/Area3D" to="Map/JUMPPADS/JUMP2" method="_on_area_3d_area_entered"]
+[connection signal="area_entered" from="Map/JUMPPADS/JUMP3/Area3D" to="Map/JUMPPADS/JUMP3" method="_on_area_3d_area_entered"]
 
 [editable path="APSET"]

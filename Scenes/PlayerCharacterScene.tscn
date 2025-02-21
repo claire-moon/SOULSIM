@@ -82,8 +82,8 @@ transform = Transform3D(-0.0179542, -0.0293571, -0.999408, -0.0120226, 0.999503,
 [node name="CameraHolder" type="Marker3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0.715, 0)
 script = ExtResource("2_x12n0")
-XAxisSensibility = 0.008
-YAxisSensibility = 0.008
+XAxisSensibility = 0.005
+YAxisSensibility = 0.005
 maxUpAngleView = -90.0
 maxDownAngleView = 90.0
 crouchCameraDepth = -0.2
@@ -146,6 +146,7 @@ script = ExtResource("3_l04tv")
 metadata/_edit_use_anchors_ = true
 
 [node name="Reticle" type="CenterContainer" parent="HUD"]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
