@@ -1,10 +1,12 @@
-[gd_scene load_steps=14 format=3 uid="uid://bwggrf7sbmkcv"]
+[gd_scene load_steps=16 format=3 uid="uid://bwggrf7sbmkcv"]
 
 [ext_resource type="Script" path="res://Scripts/PlayerCharacter/PlayerCharacterScript.gd" id="1_5dbx1"]
 [ext_resource type="PackedScene" uid="uid://4fyakavc2ttv" path="res://Scenes/bullet.tscn" id="2_phqe2"]
 [ext_resource type="Script" path="res://Scripts/PlayerCharacter/CameraScript.gd" id="2_x12n0"]
 [ext_resource type="Script" path="res://Scripts/PlayerCharacter/HUDScript.gd" id="3_l04tv"]
+[ext_resource type="PackedScene" uid="uid://cbrynsa0phd2y" path="res://Scenes/rope.tscn" id="4_82gyr"]
 [ext_resource type="Script" path="res://Scripts/PlayerCharacter/HUDRedimensionmentScript.gd" id="5_jgfg0"]
+[ext_resource type="Script" path="res://Scenes/grapple_control.gd" id="7_8e4rj"]
 [ext_resource type="Shader" path="res://Arts/Shaders/SpeedLinesShader.gdshader" id="12_8u6b8"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_5yjma"]
@@ -35,6 +37,7 @@ shader_parameter/animation_speed = 20.0
 shader_parameter/noise = SubResource("NoiseTexture2D_78nux")
 
 [node name="PlayerCharacter" type="CharacterBody3D" groups=["PlayerCharacter"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 collision_layer = 2
 floor_block_on_wall = false
 floor_max_angle = 1.309
@@ -90,15 +93,16 @@ crouchCameraDepth = -0.2
 crouchCameraLerpSpeed = 8.0
 slideCameraDepth = -0.5
 slideCameraLerpSpeed = 8.0
-baseFOV = 90.0
+baseFOV = 80.0
 crouchFOV = 75.0
-runFOV = 100.0
-slideFOV = 120.0
-dashFOV = 150.0
-fovChangeSpeed = 4.0
+runFOV = 90.0
+slideFOV = 100.0
+dashFOV = 130.0
+fovChangeSpeed = 5.0
 fovChangeSpeedWhenDash = 3.0
-bobFrequency = 0.8
-bobAmplitude = 0.06
+headBobValue = 1.5
+bobFrequency = 0.5
+bobAmplitude = 0.1
 camTiltRotationValue = 0.35
 camTiltRotationSpeed = 2.2
 mouseInputSpeed = 2.0
@@ -111,6 +115,13 @@ near = 0.01
 
 [node name="BulletTracker3D" type="Marker3D" parent="CameraHolder/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+
+[node name="RayCast3D" type="RayCast3D" parent="CameraHolder/Camera3D"]
+transform = Transform3D(1, 0, -7.10543e-15, 0, 1, 0, 7.10543e-15, 0, 1, 0, -0.0694425, 0)
+target_position = Vector3(0, -1, -200)
+
+[node name="rope" parent="CameraHolder/Camera3D" instance=ExtResource("4_82gyr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.06394e-08, -1.00344, -0.92972)
 
 [node name="CeilingCheck" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.758088, 0)
@@ -285,3 +296,9 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 40
 text = "..................."
+
+[node name="GrappleControl" type="Node" parent="." node_paths=PackedStringArray("ray", "rope")]
+script = ExtResource("7_8e4rj")
+ray = NodePath("../CameraHolder/Camera3D/RayCast3D")
+rope = NodePath("../CameraHolder/Camera3D/rope")
+damping = 6.0

@@ -19,11 +19,11 @@
 [ext_resource type="Script" path="res://addons/SphynxMotionBlurToolkit/BaseClasses/mb_compositor.gd" id="13_on133"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fjbi6"]
-sky_top_color = Color(1, 1, 1, 1)
-sky_horizon_color = Color(1, 1, 1, 1)
+sky_top_color = Color(0.517184, 0.517184, 0.517184, 1)
+sky_horizon_color = Color(0.517184, 0.517184, 0.517184, 1)
 sky_curve = 1e-05
-ground_bottom_color = Color(1, 1, 1, 1)
-ground_horizon_color = Color(1, 1, 1, 1)
+ground_bottom_color = Color(0.517647, 0.517647, 0.517647, 1)
+ground_horizon_color = Color(0.517647, 0.517647, 0.517647, 1)
 sun_angle_max = 43.45
 
 [sub_resource type="Sky" id="Sky_iebnq"]
@@ -33,22 +33,37 @@ sky_material = SubResource("ProceduralSkyMaterial_fjbi6")
 background_mode = 2
 background_color = Color(1, 1, 1, 1)
 sky = SubResource("Sky_iebnq")
-ambient_light_source = 2
+ambient_light_source = 3
 ambient_light_color = Color(1, 1, 1, 1)
 reflected_light_source = 2
 tonemap_mode = 2
 ssr_enabled = true
+ssr_max_steps = 512
+ssr_depth_tolerance = 1.01
 ssao_enabled = true
 ssao_radius = 0.79
 ssao_intensity = 2.13
 ssao_detail = 0.38
 ssao_horizon = 0.05
+ssil_radius = 2.74
+ssil_intensity = 1.55
+ssil_sharpness = 0.0
+sdfgi_enabled = true
+sdfgi_use_occlusion = true
+sdfgi_bounce_feedback = 0.08
+sdfgi_cascades = 8
+sdfgi_min_cell_size = 0.569049
+sdfgi_y_scale = 2
+sdfgi_energy = 3.0
 glow_enabled = true
+glow_strength = 1.25
+glow_bloom = 0.07
 fog_enabled = true
 fog_light_color = Color(1, 1, 1, 1)
-fog_light_energy = 0.82
-fog_density = 0.0153
-fog_sky_affect = 0.0
+fog_light_energy = 1.28
+fog_sun_scatter = 2.0
+fog_aerial_perspective = 1.0
+fog_depth_begin = 0.0
 volumetric_fog_enabled = true
 volumetric_fog_density = 0.0266
 
@@ -94,7 +109,7 @@ samples = 64
 intensity = 0.9
 center_fade = 0.0
 framerate_independent = true
-uncapped_independence = true
+uncapped_independence = false
 target_constant_framerate = 30.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h3yst"]
@@ -104,10 +119,27 @@ uv1_triplanar = true
 uv1_world_triplanar = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rd3mg"]
+transparency = 1
+blend_mode = 1
 albedo_color = Color(1, 0, 0, 1)
 metallic = 1.0
 metallic_specular = 1.0
+roughness = 0.0
 emission_enabled = true
+emission = Color(1, 0, 0, 1)
+emission_energy_multiplier = 16.0
+anisotropy_enabled = true
+anisotropy = 0.99
+ao_enabled = true
+ao_light_affect = 1.0
+subsurf_scatter_enabled = true
+subsurf_scatter_strength = 1.0
+subsurf_scatter_transmittance_color = Color(1, 0, 0, 1)
+subsurf_scatter_transmittance_depth = 4.56
+subsurf_scatter_transmittance_boost = 0.66
+backlight_enabled = true
+backlight = Color(1, 0, 0, 1)
+disable_receive_shadows = true
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_vm7yl"]
 height = 0.15
@@ -116,7 +148,7 @@ radius = 2.0
 [node name="TESTLEVEL" type="Node3D"]
 
 [node name="PlayerCharacter" parent="." instance=ExtResource("1_tvhlt")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.86348, 17.5694, 34.5186)
+transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, 2.0236, 19.7087, 36.7628)
 dashSpeed = 300.0
 walkAcceleration = 11.0
 runAcceleration = 9.0
@@ -154,12 +186,13 @@ size = Vector3(45, 8, 0)
 [node name="JUMPPADS" type="Node3D" parent="Map"]
 
 [node name="JUMP1" type="CSGCylinder3D" parent="Map/JUMPPADS"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -256.872, 216.062, -419.794)
+transform = Transform3D(1.01599, 0, 0, 0, 1.01599, 0, 0, 0, 1.01599, -256.872, 215.876, -419.794)
 material_override = SubResource("StandardMaterial3D_rd3mg")
 use_collision = true
 collision_mask = 2
-radius = 2.0
+radius = 3.0
 height = 0.15
+sides = 32
 script = ExtResource("4_nyumb")
 jumpBoostValue = 60.0
 
@@ -176,8 +209,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -186.743, 198.063, -458.925)
 material_override = SubResource("StandardMaterial3D_rd3mg")
 use_collision = true
 collision_mask = 2
-radius = 2.0
+radius = 3.0
 height = 0.15
+sides = 32
 script = ExtResource("4_nyumb")
 jumpBoostValue = 50.0
 
@@ -193,8 +227,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -269.354, 174.034, -553.37)
 material_override = SubResource("StandardMaterial3D_rd3mg")
 use_collision = true
 collision_mask = 2
-radius = 2.0
+radius = 3.0
 height = 0.15
+sides = 32
 script = ExtResource("4_nyumb")
 jumpBoostValue = 50.0
 
@@ -205,15 +240,34 @@ collision_mask = 2
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0425774, 0)
 shape = SubResource("CylinderShape3D_vm7yl")
 
-[node name="Blocks" type="Node3D" parent="Map"]
+[node name="JUMP4" type="CSGCylinder3D" parent="Map/JUMPPADS"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -195.885, 103.613, -639.447)
+material_override = SubResource("StandardMaterial3D_rd3mg")
+use_collision = true
+collision_mask = 2
+radius = 3.0
+height = 0.15
+sides = 32
+script = ExtResource("4_nyumb")
+jumpBoostValue = 50.0
 
-[node name="Jumppads" type="Node3D" parent="Map"]
+[node name="Area3D" type="Area3D" parent="Map/JUMPPADS/JUMP4"]
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/JUMPPADS/JUMP4/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0425774, 0)
+shape = SubResource("CylinderShape3D_vm7yl")
+
+[node name="Blocks" type="Node3D" parent="Map"]
 
 [node name="EnemyCluster" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 206.381, -234.088, 369.126)
 
 [node name="APSET" parent="." instance=ExtResource("7_ctwt8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -258.386, -233.67, -271.847)
+
+[node name="AP1" parent="APSET" index="0"]
+transform = Transform3D(2.75407, 0, 0, 0, 13.8948, 0, 0, 0, 1.72246, 273.848, 0, -43.64)
 
 [node name="AP2" parent="APSET" index="1"]
 transform = Transform3D(2.73253, 0, 0, 0, 6.51704, 0, 0, 0, 4.2379, 270.184, 0, 42.9951)
@@ -248,5 +302,6 @@ transform = Transform3D(2.4588, 0, 0, 0, 2.4588, 0, 0, 0, 1, 270.05, 0, 216.169)
 [connection signal="area_entered" from="Map/JUMPPADS/JUMP1/Area3D" to="Map/JUMPPADS/JUMP1" method="_on_area_3d_area_entered"]
 [connection signal="area_entered" from="Map/JUMPPADS/JUMP2/Area3D" to="Map/JUMPPADS/JUMP2" method="_on_area_3d_area_entered"]
 [connection signal="area_entered" from="Map/JUMPPADS/JUMP3/Area3D" to="Map/JUMPPADS/JUMP3" method="_on_area_3d_area_entered"]
+[connection signal="area_entered" from="Map/JUMPPADS/JUMP4/Area3D" to="Map/JUMPPADS/JUMP4" method="_on_area_3d_area_entered"]
 
 [editable path="APSET"]

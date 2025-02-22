@@ -93,6 +93,9 @@ var velocityPreDash : Vector3
 @onready var mesh = $MeshInstance3D
 @onready var hud = $HUD
 
+#grapple ref
+@onready var gc = $GrappleControl
+
 func _ready():
 	#set the start move speed
 	moveSpeed = walkSpeed
@@ -155,6 +158,7 @@ func inputManagement():
 			states.IDLE:
 				if Input.is_action_just_pressed("jump"):
 					jump(0.0, false)
+					
 				
 				if Input.is_action_just_pressed("crouch | slide"):
 					crouchStateChanges()
