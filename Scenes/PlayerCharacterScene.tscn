@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bwggrf7sbmkcv"]
+[gd_scene load_steps=17 format=3 uid="uid://bwggrf7sbmkcv"]
 
 [ext_resource type="Script" path="res://Scripts/PlayerCharacter/PlayerCharacterScript.gd" id="1_5dbx1"]
 [ext_resource type="PackedScene" uid="uid://4fyakavc2ttv" path="res://Scenes/bullet.tscn" id="2_phqe2"]
@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://Scripts/PlayerCharacter/HUDScript.gd" id="3_l04tv"]
 [ext_resource type="PackedScene" uid="uid://cbrynsa0phd2y" path="res://Scenes/rope.tscn" id="4_82gyr"]
 [ext_resource type="Script" path="res://Scripts/PlayerCharacter/HUDRedimensionmentScript.gd" id="5_jgfg0"]
-[ext_resource type="Script" path="res://Scenes/grapple_control.gd" id="7_8e4rj"]
+[ext_resource type="Script" path="res://Scripts/Others/grapple_control.gd" id="7_8e4rj"]
 [ext_resource type="Shader" path="res://Arts/Shaders/SpeedLinesShader.gdshader" id="12_8u6b8"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_5yjma"]
@@ -35,6 +35,8 @@ shader_parameter/mask_size = 0.1
 shader_parameter/mask_edge = 0.8
 shader_parameter/animation_speed = 20.0
 shader_parameter/noise = SubResource("NoiseTexture2D_78nux")
+
+[sub_resource type="ImageTexture" id="ImageTexture_swrnd"]
 
 [node name="PlayerCharacter" type="CharacterBody3D" groups=["PlayerCharacter"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -302,3 +304,8 @@ script = ExtResource("7_8e4rj")
 ray = NodePath("../CameraHolder/Camera3D/RayCast3D")
 rope = NodePath("../CameraHolder/Camera3D/rope")
 damping = 6.0
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.92691, 0, 0)
+visible = false
+texture = SubResource("ImageTexture_swrnd")
