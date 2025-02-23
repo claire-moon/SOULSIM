@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cbrynsa0phd2y" path="res://Scenes/rope.tscn" id="4_82gyr"]
 [ext_resource type="Script" path="res://Scripts/PlayerCharacter/HUDRedimensionmentScript.gd" id="5_jgfg0"]
 [ext_resource type="Script" path="res://Scripts/Others/grapple_control.gd" id="7_8e4rj"]
+[ext_resource type="Texture2D" uid="uid://df7x8akiuplsd" path="res://Arts/HUD/cross1.png" id="9_5wr1e"]
 [ext_resource type="Shader" path="res://Arts/Shaders/SpeedLinesShader.gdshader" id="12_8u6b8"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_5yjma"]
@@ -35,8 +36,6 @@ shader_parameter/mask_size = 0.1
 shader_parameter/mask_edge = 0.8
 shader_parameter/animation_speed = 20.0
 shader_parameter/noise = SubResource("NoiseTexture2D_78nux")
-
-[sub_resource type="ImageTexture" id="ImageTexture_swrnd"]
 
 [node name="PlayerCharacter" type="CharacterBody3D" groups=["PlayerCharacter"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -124,6 +123,10 @@ target_position = Vector3(0, -1, -200)
 
 [node name="rope" parent="CameraHolder/Camera3D" instance=ExtResource("4_82gyr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.06394e-08, -1.00344, -0.92972)
+
+[node name="GrappleRay" type="RayCast3D" parent="CameraHolder/Camera3D"]
+transform = Transform3D(1, 0, -7.35137e-08, 0, 1, 0, 7.35137e-08, 0, 1, -0.0381679, -0.0522492, -0.334246)
+target_position = Vector3(0, -1, -200)
 
 [node name="CeilingCheck" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.758088, 0)
@@ -299,13 +302,29 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 40
 text = "..................."
 
-[node name="GrappleControl" type="Node" parent="." node_paths=PackedStringArray("ray", "rope")]
+[node name="CanvasLayer" type="CanvasLayer" parent="HUD"]
+
+[node name="GrappleCross" type="TextureRect" parent="HUD/CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.5
+offset_top = -250.0
+offset_right = 250.5
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(250.5, 251)
+texture = ExtResource("9_5wr1e")
+
+[node name="GrappleControl" type="Node" parent="." node_paths=PackedStringArray("ray", "rope", "g_cross", "g_ray", "camera")]
 script = ExtResource("7_8e4rj")
 ray = NodePath("../CameraHolder/Camera3D/RayCast3D")
 rope = NodePath("../CameraHolder/Camera3D/rope")
+g_cross = NodePath("../HUD/CanvasLayer/GrappleCross")
+g_ray = NodePath("../CameraHolder/Camera3D/GrappleRay")
+camera = NodePath("../CameraHolder/Camera3D")
+lerp_speed = 25.0
 damping = 6.0
-
-[node name="Sprite3D" type="Sprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.92691, 0, 0)
-visible = false
-texture = SubResource("ImageTexture_swrnd")
